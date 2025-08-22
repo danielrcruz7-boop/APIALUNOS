@@ -63,31 +63,15 @@ app.get("/alunos/cor/:cor", (req, res) => {
     }
 });
 
-app.post("/aluno", (req, res)=>{
+app.post("/alunos", (req, res)=>{
     const {nome, cor, idade} = req.body;
 
-    if {!nome ||!cor || !idade}{
+    if (!nome ||!cor || !idade){
         return res.status(400).json({msg : "Nome cor e idade são obrigatórios"})
     }
 
-
-    
-    const novoAluno ={
-        nome, cor, idade
-    }
-    ALUNOS.length = 3
-    ALUNOS[2]
-    ALUNOS.length - 1
-    ALUNOS[2].id = 3
-    ALUNOS[2].id + 1
-    id = 4
-    let id = 0
-    if(ALUNOS.length > 0){
-        id = ALUNOS[ALUNOS.length - 1].id + 1
-    }else{
-        id = 1
-    }
     const id = ALUNOS.length > 0 ? ALUNOS[ALUNOS.length - 1].id + 1 : 1
+ 
 
     const novoAluno ={
        id, nome, cor, idade
@@ -95,6 +79,20 @@ app.post("/aluno", (req, res)=>{
     console.log(novoAluno)
     ALUNOS.push(novoAluno)
     res.status(201).json({mensagem: "Aluno criado com sucesso"})
+})
+
+app.delete("/alunos/:id", (req, res)=>{
+    const id = Number(req.params.id);
+    const indice = ALUNOS.findIndex(aluno => aluno.id === id)
+
+    if( indice === -1){
+        return res.status(404).json({
+            msg: "Aluno não encontrado ou já foi encontrado"
+        })
+    }
+    console.log(indice)
+    ALUNOS.splice(indice,1);
+    res.status(204).json({msg: "Deletado com sucesso"});
 })
 
 app.listen(PORT, () => {
