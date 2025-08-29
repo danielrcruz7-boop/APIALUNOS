@@ -95,6 +95,25 @@ app.delete("/alunos/:id", (req, res)=>{
     res.status(204).json({msg: "Deletado com sucesso"});
 })
 
+app.put("/alunos/:id", (req, res) =>{
+    const id = Number(req.params.id);
+    const {nome, cor, idade} = req.body
+    
+    const indice = ALUNOS.findIndex(aluno => aluno.id === id)
+    
+    if(indice === -1){
+        return res.status(404).json({msg: "Aluno não encontrado"})
+    }
+    if(!nome || !cor || !idade){
+        return res.status(400).json({msg: "Nome, cor e idade são obrigatórios"})
+    }
+    ALUNOS[indice] = {id ,nome , cor, idade}
+
+    res.status(200).json({msg: "Alunos atualizado com sucesso"})
+
+    
+})
+
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 })
